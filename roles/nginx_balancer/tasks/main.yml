@@ -1,0 +1,26 @@
+---
+# tasks file for nginx_balancer
+
+#- name: Install docker for CentOs
+#  import_tasks: install_docker_centos.yml
+#  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Adding nginx config
+  import_tasks: adding_nginx_conf.yml
+
+- name: Pull nginx docker image
+  community.docker.docker_container:
+    name: nginx_balancer
+    image: "nginx:stable"
+    state: started
+    ports:
+      - "5000:8080"
+    volumes:
+      - /etc/nginx_conf/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - name: web_net
+        ipv4_address: 172.1.1.10
+        links:
+          - "web_app_{{ item.key }}"
+  with_dict:  "{{ port_dict }}"
+

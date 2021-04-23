@@ -1,0 +1,27 @@
+user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+  upstream web_app {
+    {% for item in port_dict %}
+    server {{ port_dict[item] }}:5000;
+    {% endfor %}
+  }
+
+  server {
+    listen 8080;
+    server_name web_app;
+    location / {
+      proxy_pass http://web_app;
+    }
+  }
+}

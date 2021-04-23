@@ -1,0 +1,13 @@
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /etc/nginx_conf
+    state: directory
+    mode: '0755'
+
+- name: Place nginx config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx_conf/nginx.conf
+
+
+

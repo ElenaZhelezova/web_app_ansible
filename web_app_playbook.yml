@@ -1,0 +1,47 @@
+---
+- name: install 3 containers of web_app
+  hosts: webserver
+  become: yes
+  vars:
+    docker_login: 'elenazhelezova'
+    docker_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          37613365656233623338343134343066613731613633623737393163336133363036356632313964
+          3230666439666237363134363531393263656230353763650a643332656534626534646264393732
+          66353038363031633665316131343538393134666337636461316430383565363131303139363434
+          3438343131313664350a386538666266346132373738386563353133333562636135666236363335
+          3264
+
+    docker_image: 'elenazhelezova/exam_devops:web_app'
+    port_dict:
+      '1': '172.1.1.20'
+      '2': '172.1.1.21'
+      '3': '172.1.1.22'
+
+  tasks:
+    - name: Install epel-release, python
+      yum:
+        name:
+          - epel-release
+          - python
+          - python-pip
+
+    - name: Install docker-py
+      pip:
+        name: docker-py
+
+    - name: Create docker network
+      docker_network:
+        name: web_net
+        ipam_config:
+          - subnet: 172.1.1.0/24
+
+    - name: Include web_app role
+      include_role:
+         name: web_app
+
+    - name: Include nginx role
+      include_role:
+        name: nginx_balancer
+
+

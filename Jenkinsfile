@@ -10,7 +10,8 @@ pipeline {
 
         stage('Run playbook') {
             steps {
-                ansiblePlaybook(credentialsId: 'admin', inventory: 'hosts.yml', playbook: 'web_app_playbook.yml')
+                ansiblePlaybook(credentialsId: 'admin', inventory: 'hosts.yml',
+                playbook: 'web_app_playbook.yml', disableHostKeyChecking: true)
             }
         }
     }

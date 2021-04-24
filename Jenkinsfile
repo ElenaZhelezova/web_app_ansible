@@ -11,7 +11,8 @@ pipeline {
         stage('Run playbook') {
             steps {
                 ansiblePlaybook(credentialsId: 'host_key', inventory: 'hosts.yml',
-                playbook: 'web_app_playbook.yml', disableHostKeyChecking: true)
+                playbook: 'web_app_playbook.yml', disableHostKeyChecking: true,
+                vaultCredentialsId: 'valt_p')
             }
         }
     }

@@ -1,5 +1,5 @@
 - name: login dockerhub
-  community.docker.docker_login:
+  docker_login:
     username: "{{ docker_login }}"
     password: "{{ docker_password }}"
 

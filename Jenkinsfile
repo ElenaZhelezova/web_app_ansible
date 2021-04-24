@@ -12,7 +12,7 @@ pipeline {
             steps {
                 ansiblePlaybook(credentialsId: 'host_key', inventory: 'hosts.yml',
                 playbook: 'web_app_playbook.yml', disableHostKeyChecking: true,
-                vaultCredentialsId: 'vault_p')
+                vaultCredentialsId: 'valt_p')
             }
         }
     }

@@ -4,7 +4,7 @@
     password: "{{ docker_password }}"
 
 - name: Run docker container
-  community.docker.docker_container:
+  docker_container:
     name: "web_app_{{ item.key }}"
     image: "{{ docker_image }}"
     state: started
@@ -14,5 +14,5 @@
   with_dict: "{{ port_dict }}"
 
 - name: Logout dockerhub
-  community.docker.docker_login:
+  docker_login:
     state: absent

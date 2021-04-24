@@ -5,5 +5,11 @@
   import_tasks: install_docker_centos.yml
   when: ansible_facts['os_family'] == 'RedHat'
 
+- name: Create docker network
+  docker_network:
+    name: web_net
+    ipam_config:
+      - subnet: 172.1.1.0/24
+
 - name: Pull web_app docker image
   import_tasks: pull_from_private_repo.yml

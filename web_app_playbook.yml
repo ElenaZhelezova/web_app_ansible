@@ -22,12 +22,6 @@
       pip:
         name: docker-py
 
-    - name: Create docker network
-      docker_network:
-        name: web_net
-        ipam_config:
-          - subnet: 172.1.1.0/24
-
     - name: Include web_app role
       include_role:
          name: web_app
